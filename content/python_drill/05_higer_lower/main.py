@@ -2,7 +2,6 @@ import art
 from game_data import data
 import random
 
-
 # Function to check whether the answer is correct or wrong
 def check_answer(candidate_dict):
     '''Choose the bigger follower count among the given candidate_dict.
@@ -17,11 +16,11 @@ def check_answer(candidate_dict):
 
 
 # Function to print questions
-def generate_question(data, previous_answer):
+def generate_question(data, second_candidate):
     '''The parameters are list of questions dictionary and previous_answer(optional)
   Choose 2 random candidates and remove it from the original data
   Return the dictioinary of candidates {'A': candidate_1, 'B': candidate_2}'''
-    if previous_answer is None:
+    if second_candidate is None:
         first_candidate = random.choice(data)
         data.remove(first_candidate)
         second_candidate = random.choice(data)
@@ -30,7 +29,7 @@ def generate_question(data, previous_answer):
     else:
         if len(data) == 0:
             return
-        first_candidate = previous_answer
+        first_candidate = second_candidate
         second_candidate = random.choice(data)
         data.remove(second_candidate)
 
@@ -65,7 +64,7 @@ def game():
         if candidate_dict[guess] == answer:
             point += 1
             print(f"You're right! Current score: {point}.")
-            candidate_dict = generate_question(questions_data, answer)
+            candidate_dict = generate_question(questions_data, candidate_dict["B"])
             if candidate_dict is None:
                 print(">>>>>>>>>>> You've correct every question")
                 return
